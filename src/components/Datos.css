@@ -1,0 +1,43 @@
+.boton-limpiar {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ff0000;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Estilo para cambiar el color del botón al pasar el cursor por encima */
+  .boton-limpiar:hover {
+    background-color: #45a049;
+  }
+  
+  /* Estilo para mostrar un efecto cuando se hace clic en el botón */
+  .boton-limpiar:active {
+    transform: translateY(2px);
+  }
+  
+  /* Estilo para los iconos en los botones */
+  .boton-limpiar svg {
+    margin-left: 10px;
+  }
+  
+  .contenedor-botones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Si los botones no caben en una sola línea, envolverlos a la siguiente línea */
+    margin-top: 20px; /* Agregamos un margen superior para separar del texto de advertencia */
+  }
+  
+  h2 {
+    color: #f44336;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }

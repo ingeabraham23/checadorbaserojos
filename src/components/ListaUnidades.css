@@ -1,0 +1,157 @@
+.button-delete {
+  background-color: #ff4444;
+  color: #ffffff;
+  border: none;
+  margin: 2px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-move-up {
+  background-color: #337ab7;
+  color: #ffffff;
+  border: none;
+  margin: 2px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-assign-tacopan {
+  background-color: #ffc107;
+  color: #ffffff;
+  border: none;
+  margin: 2px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-timer {
+  background-color: #6bca12; /* Cambia el color de fondo */
+  color: white; /* Cambia el color del texto */
+  font-size: 24px;
+  padding: 3px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+}
+
+.button-exit {
+  background-color: #a3e969; /* Cambia el color de fondo */
+  color: rgb(255, 255, 255); /* Cambia el color del texto */
+  font-size: 24px;
+  padding: 3px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+  margin-right: 8px;
+}
+.button-anunciar {
+  background-color: #4ae7da; /* Cambia el color de fondo */
+  color: rgb(0, 0, 0); /* Cambia el color del texto */
+  font-size: 24px;
+  padding: 3px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+  margin-right: 2px;
+}
+
+.button-proxima {
+  background-color: #ffee00; /* Cambia el color de fondo */
+  color: rgb(0, 0, 0); /* Cambia el color del texto */
+  font-size: 24px;
+  padding: 3px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+  margin-right: 2px;
+}
+
+.button-silencio {
+  background-color: #ff0101; /* Cambia el color de fondo */
+  color: white; /* Cambia el color del texto */
+  font-size: 24px;
+  padding: 3px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+  margin-right: 5px;
+}
+
+.button-hospital {
+  background-color: #22a2f7; /* Cambia el color de fondo */
+  color: rgb(0, 0, 0); /* Cambia el color del texto */
+  font-size: 24px;
+  padding: 3px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+  margin-right: 2px;
+}
+
+.button-huapaltepec {
+  background-color: #ea00ff; /* Cambia el color de fondo */
+  color: rgb(0, 0, 0); /* Cambia el color del texto */
+  font-size: 24px;
+  padding: 3px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+  margin-right: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  padding: 1px;
+  text-align: center;
+  border: 2px solid #000000;
+  font-size: 18px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+tbody td {
+  padding: 1px;
+  text-align: center;
+  border: 2px solid #000000;
+  font-size: 18px;
+}
+
+.unit-row:hover {
+  background-color: #e6e6e6;
+}
+
+.celda-tacopan {
+  padding: 1px;
+  text-align: center;
+  border: 2px solid #000000;
+  font-size: 18px;
+  text-align: center;
+}
+
+.small-text {
+  font-size: 8px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.button-unidad {
+  background-color: #ffffff; /* Cambia el color de fondo */
+  color: rgb(0, 0, 0); /* Cambia el color del texto */
+  font-size: 18px;
+  padding: 1px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+}

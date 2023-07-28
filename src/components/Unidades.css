@@ -1,0 +1,165 @@
+.unidades-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.add-button {
+  background-color: #6bca12; /* Cambia el color de fondo */
+  color: white; /* Cambia el color del texto */
+  padding: 10px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+  margin-right: 5px;
+}
+
+.add-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px; /* Ajusta el margen inferior según tus preferencias */
+  margin-top: 5px;
+}
+
+.unidad-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.unidad-form .form-group {
+  margin-bottom: 15px;
+}
+
+.unidad-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.unidad-form input[type="text"],
+.unidad-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+.cancel-button {
+  background-color: #ff0000; /* Cambia el color de fondo */
+  color: white; /* Cambia el color del texto */
+  padding: 10px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  font-size: 20px;
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+  margin-right: 5px;
+}
+
+.save-button {
+  background-color: #6bca12; /* Cambia el color de fondo */
+  color: white; /* Cambia el color del texto */
+  padding: 10px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  font-size: 20px;
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+  margin-right: 5px;
+}
+
+/* Agrega un estilo básico para el botón de alarma */
+.alarm-button-tacopan {
+  padding: 10px;
+  font-size: 14px;
+  background-color: #FEF304;
+  color: rgb(0, 0, 0);
+  border: 1px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #000; /* Elimina el borde */
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.alarm-button-tepepan {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #fe0404;
+  color: rgb(0, 0, 0);
+  border: 1px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #000; /* Elimina el borde */
+}
+
+.alarm-button-huapaltepec {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #e104fe;
+  color: rgb(115, 255, 0);
+  border: 1px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #000; /* Elimina el borde */
+}
+
+/* Agrega la animación para el parpadeo */
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Aplica la animación al botón de alarma cuando la alarma está activa */
+.alarm-button-tacopan.blinking {
+  animation: blink 2s infinite;
+}
+
+.alarm-button-tepepan.blinking {
+  animation: blink 2s infinite;
+}
+
+.alarm-button-huapaltepec.blinking {
+  animation: blink 2s infinite;
+}
+
+.small-text {
+  font-size: 8px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.form-container {
+  background-color: #b4b4b4;
+  border: 1px solid #ccc;
+  border-radius: 2%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 80%;
+  max-width: 400px;
+  margin: 20px auto; /* Añadir un margen para centrar el formulario */
+}
