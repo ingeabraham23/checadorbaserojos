@@ -16,6 +16,7 @@ import {
   faTree,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import html2canvas from "html2canvas";
 import "./ListaUnidades.css";
 import db from "../db";
 
@@ -38,6 +39,7 @@ function ListaUnidades({
   // eslint-disable-next-line no-unused-vars
   const [isSpeaking, setIsSpeaking] = useState(false);
   const utteranceRef = useRef(null);
+  const tablaRef = useRef(null);
   const synthesis = window.speechSynthesis;
 
   //-------------Audio Audio Audio Audio Audio Audio Audio Audio Audio Audio Audio Audio Audio Audio
@@ -163,6 +165,21 @@ function ListaUnidades({
 
   //-------------Audio Audio Audio Audio Audio Audio Audio Audio Audio Audio Audio Audio Audio Audio
 
+  function capturarTabla() {
+    const tabla = tablaRef.current;
+    html2canvas(tabla).then(function (canvas) {
+      const pngUrl = canvas.toDataURL("image/png");
+      const downloadLink = document.createElement("a");
+      const fecha = new Date();
+      downloadLink.href = pngUrl;
+
+      downloadLink.download = fecha.toLocaleDateString();
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    });
+  }
+
   const handleDelete = (numeroUnidad) => {
     onDeleteUnidad(numeroUnidad);
   };
@@ -219,7 +236,7 @@ function ListaUnidades({
       if (!intervalId) {
         const newIntervalId = setInterval(() => {
           setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
-        }, 1000);
+        }, 2000);
         setIntervalId(newIntervalId);
       }
     }
@@ -335,7 +352,7 @@ function ListaUnidades({
         )}
       </div>
       <hr></hr>
-      <table className="unit-table">
+      <table className="unit-table" ref={tablaRef}>
         <tbody>
           {unidades.map((unidad, index) => (
             <tr
@@ -414,6 +431,9 @@ function ListaUnidades({
           ))}
         </tbody>
       </table>
+      <div><div>
+        <button className="button-capturar" onClick={capturarTabla}>Capturar tabla</button>
+      </div></div>
     </div>
   );
 }

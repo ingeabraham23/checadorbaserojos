@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Unidades() {
+
   const [showForm, setShowForm] = useState(false);
   const [numeroUnidad, setNumeroUnidad] = useState("");
   const [selectedRutas, setSelectedRutas] = useState([]);
@@ -189,7 +190,7 @@ function Unidades() {
   };
 
   const handleRutaChange = (e) => {
-    setRutaChange(true)
+    setRutaChange(true);
     const rutaSeleccionada = selectedRutas.find(
       (ruta) => ruta.ruta === e.target.value
     );
@@ -201,7 +202,9 @@ function Unidades() {
   const handleSaveUnidad = async () => {
     let rutaSeleccionada;
 
-    rutaChange ?rutaSeleccionada = selectedRuta : rutaSeleccionada = selectedRutas[0]
+    rutaChange
+      ? (rutaSeleccionada = selectedRuta)
+      : (rutaSeleccionada = selectedRutas[0]);
 
     const fechaHoraActual = new Date(); // Obtener la fecha y hora actual
     const horaActual = fechaHoraActual.toLocaleTimeString(); // Convertir la hora actual a formato de cadena
@@ -238,7 +241,7 @@ function Unidades() {
 
     const unidadesActualizadas = await db.unidades.toArray(); // Obtener la lista actualizada de unidades
     setUnidades(unidadesActualizadas); // Actualizar el estado 'unidades' con la lista actualizada
-    setRutaChange(false)
+    setRutaChange(false);
   };
 
   //*********************************************Eliminar Unidad********************************************
@@ -423,25 +426,27 @@ function Unidades() {
   };
 
   const handleAddTepepan = async () => {
-    const numeroUnidadIngresado = prompt("Ingresa el número de la nueva unidad:");
+    const numeroUnidadIngresado = prompt(
+      "Ingresa el número de la nueva unidad:"
+    );
     if (numeroUnidadIngresado) {
       // Verificar si el número de unidad ya existe
       const unidadExistente = unidades.find(
         (unidad) => unidad.numeroUnidad === numeroUnidadIngresado
       );
-  
+
       if (unidadExistente) {
         toast.error(
           "El número de unidad ya existe. Por favor, elige otro número."
         );
         return;
       }
-  
+
       if (unidades.length === 0) {
         toast.error("Debes tener al menos una unidad para agregar una nueva.");
         return;
       }
-  
+
       if (unidades.length === 1) {
         // Si hay una sola unidad, agregamos la nueva unidad en index[1]
         const fechaHoraActual = new Date();
@@ -450,7 +455,7 @@ function Unidades() {
           .where("numeroUnidad")
           .equals(numeroUnidadIngresado)
           .toArray();
-  
+
         const nuevaUnidad = {
           numeroUnidad: numeroUnidadIngresado,
           horaRegistro: horaActual,
@@ -460,27 +465,29 @@ function Unidades() {
             "Pasajeros con destino a Tequimila, yopi y tepepan favor de abordar la Unidad {numeroUnidad}. Tequimila, yopi y tepepan, Unidad {numeroUnidad}. Pasa por. INE. Chedraui, Minera, Puente peatonal del Fresnillo, Clínica mi rrufi, El Capulín, Monumento a la madre. Tequimila, yopi y tepepan, Unidad {numeroUnidad}. Tequimila, yopi y tepepan, Unidad {numeroUnidad}.",
           salidas: coincidencias,
         };
-  
+
         const unidadesActualizadas = [...unidades, nuevaUnidad];
         setUnidades(unidadesActualizadas);
-  
+
         // Guardar las unidades actualizadas en la base de datos (si es necesario)
         await db.unidades.clear();
         await db.unidades.bulkPut(unidadesActualizadas);
-  
-        toast.success("La unidad se agregó con la ruta 'Tepepan' correctamente.");
+
+        toast.success(
+          "La unidad se agregó con la ruta 'Tepepan' correctamente."
+        );
       } else {
         // Si hay más de una unidad, realizamos la inserción en el índice 1 como lo hacía antes
         const unidadesHastaIndice1 = unidades.slice(0, 1);
         const unidadesDesdeIndice2 = unidades.slice(1);
-  
+
         const fechaHoraActual = new Date();
         const horaActual = fechaHoraActual.toLocaleTimeString();
         const coincidencias = await db.reporte
           .where("numeroUnidad")
           .equals(numeroUnidadIngresado)
           .toArray();
-  
+
         const nuevaUnidad = {
           numeroUnidad: numeroUnidadIngresado,
           horaRegistro: horaActual,
@@ -490,13 +497,13 @@ function Unidades() {
             "Pasajeros con destino a Tequimila, yopi y tepepan favor de abordar la Unidad {numeroUnidad}. Tequimila, yopi y tepepan, Unidad {numeroUnidad}. Pasa por. INE. Chedraui, Minera, Puente peatonal del Fresnillo, Clínica mi rrufi, El Capulín, Monumento a la madre. Tequimila, yopi y tepepan, Unidad {numeroUnidad}. Tequimila, yopi y tepepan, Unidad {numeroUnidad}.",
           salidas: coincidencias,
         };
-  
+
         const unidadesActualizadas = [
           ...unidadesHastaIndice1,
           nuevaUnidad,
           ...unidadesDesdeIndice2,
         ];
-  
+
         const idUnidadIndice1 = unidades[1].id;
         const unidadesActualizadasConID = unidadesActualizadas.map(
           (unidad, index) => {
@@ -509,18 +516,19 @@ function Unidades() {
             return unidad;
           }
         );
-  
+
         setUnidades(unidadesActualizadasConID);
-  
+
         // Guardar las unidades actualizadas en la base de datos (si es necesario)
         await db.unidades.clear();
         await db.unidades.bulkPut(unidadesActualizadasConID);
-  
-        toast.success("La unidad se agregó con la ruta 'Tepepan' correctamente.");
+
+        toast.success(
+          "La unidad se agregó con la ruta 'Tepepan' correctamente."
+        );
       }
     }
   };
-  
 
   return (
     <div className="unidades-container">
@@ -626,6 +634,7 @@ function Unidades() {
           onMoveUnidadToEnd={handleMoveUnidadToEnd}
         ></ListaUnidades>
       </div>
+      
     </div>
   );
 }

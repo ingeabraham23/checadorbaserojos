@@ -124,7 +124,7 @@ function Roles() {
           </tbody>
         </table>
         <div className="container-boton-guardar">
-          <button type="submit" className="boton-guardar">
+          <button type="submit" className="boton-guardar" onClick={handleSubmit}>
             Guardar
           </button>
         </div>
