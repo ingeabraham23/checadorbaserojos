@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState, useRef } from "react";
+import ClockButton from './Reloj';
 //import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faTrash,
@@ -22,6 +23,8 @@ import db from "../db";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { format } from "date-fns";
 
 function ListaUnidades({
   unidades,
@@ -173,7 +176,7 @@ function ListaUnidades({
       const fecha = new Date();
       downloadLink.href = pngUrl;
 
-      downloadLink.download = fecha.toLocaleDateString();
+      downloadLink.download = fecha.toLocaleDateString() + ".png";
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
@@ -229,8 +232,23 @@ function ListaUnidades({
       // Obtener la hora de inicio actual
       const horaInicio = new Date();
 
+      // Agregar 2 minutos a la hora de inicio actual para la primera predicción
+      const prediccionInicio = new Date(horaInicio);
+      prediccionInicio.setMinutes(horaInicio.getMinutes() + 2);
       // Actualizar la hora de inicio en la primera unidad de la lista
-      await db.unidades.update(unidades[0].id, { horainicio: horaInicio });
+      await db.unidades.update(unidades[0].id, {
+        horainicio: horaInicio,
+        prediccion: prediccionInicio,
+      });
+
+      // Calcular y actualizar las predicciones para los siguientes elementos en la lista
+      for (let i = 1; i < unidades.length; i++) {
+        const nuevaPrediccion = new Date(prediccionInicio);
+        nuevaPrediccion.setMinutes(prediccionInicio.getMinutes() + i * 2);
+        await db.unidades.update(unidades[i].id, {
+          prediccion: nuevaPrediccion,
+        });
+      }
 
       // Si el temporizador no está corriendo, iniciarlo
       if (!intervalId) {
@@ -259,12 +277,27 @@ function ListaUnidades({
     try {
       const unidadesCopy = await db.unidades.toArray();
       if (unidadesCopy.length > 0) {
-        // Obtener la hora de inicio actual
         if (unidadesCopy.length > 1) {
           const horaInicio = new Date();
+          // Agregar 2 minutos a la hora de inicio actual para la primera predicción
+          const prediccionInicio = new Date(horaInicio);
+          prediccionInicio.setMinutes(horaInicio.getMinutes() + 2);
           // Actualizar la hora de inicio en la primera unidad de la lista
-          await db.unidades.update(unidades[1].id, { horainicio: horaInicio });
+          await db.unidades.update(unidades[1].id, {
+            horainicio: horaInicio,
+            prediccion: prediccionInicio,
+          });
+
+          for (let i = 2; i < unidades.length; i++) {
+            const nuevaPrediccion = new Date(prediccionInicio);
+            nuevaPrediccion.setMinutes(prediccionInicio.getMinutes() + (i - 1) * 2);
+            await db.unidades.update(unidades[i].id, {
+              prediccion: nuevaPrediccion,
+            });
+          }
         }
+
+        
 
         const unidadToCopy = {
           ...unidadesCopy[0],
@@ -283,23 +316,7 @@ function ListaUnidades({
 
   return (
     <div>
-      <div className="timer-container">
-        {unidades.length > 0 && (
-          <button
-            className="button-timer"
-            style={{ backgroundColor: timerColor }}
-            onClick={handleStartTimer}
-          >
-            {formatTime(elapsedTime)}
-            <p className="small-text">Tiempo</p>
-          </button>
-        )}{" "}
-        {unidades.length > 0 && (
-          <button className="button-exit" onClick={handleExit}>
-            <FontAwesomeIcon icon={faRoad} />
-            <p className="small-text">Dar salida</p>
-          </button>
-        )}
+      <div className="sound-container">
         {unidades.length > 0 && (
           <button
             className="button-anunciar"
@@ -351,7 +368,25 @@ function ListaUnidades({
           </button>
         )}
       </div>
-      <hr></hr>
+      <div className="timer-container">
+        {unidades.length > 0 && (
+          <button
+            className="button-timer"
+            style={{ backgroundColor: timerColor }}
+            onClick={handleStartTimer}
+          >
+            {formatTime(elapsedTime)}
+            <p className="small-text">Tiempo</p>
+          </button>
+        )}{" "}
+        {unidades.length > 0 && (
+          <button className="button-exit" onClick={handleExit}>
+            <FontAwesomeIcon icon={faRoad} />
+            <p className="small-text">Dar salida</p>
+          </button>
+        )}
+        <ClockButton></ClockButton>
+      </div>
       <table className="unit-table" ref={tablaRef}>
         <tbody>
           {unidades.map((unidad, index) => (
@@ -403,37 +438,44 @@ function ListaUnidades({
                 >
                   <FontAwesomeIcon icon={faArrowDownShortWide} />
                 </button>
-                <br></br>
-                {unidad.salidas &&
-                  unidad.salidas.map((salida, salidaIndex) => (
-                    <div
-                      key={salidaIndex}
-                      className="salidas"
-                      style={{
-                        width: "15px",
-                        height: "15px",
-                        borderRadius: "50%",
-                        backgroundColor: salida.color,
-                        display: "inline-block", //inline-block
-                        margin: "1px",
-                        border: "1px solid black", // Agregar borde negro
-                        //padding: "1px",
-                        textAlign: "center", // Centrar el contenido dentro del círculo
-                        lineHeight: "15px", // Alinear verticalmente el contenido
-                        fontSize: "10px", // Tamaño de la fuente para que quepa dentro del círculo
-                      }}
-                    >
-                      {salidaIndex + 1}
-                    </div>
-                  ))}
+                <div className="prediccion">
+                  {format(unidad.prediccion, "HH:mm:ss")}
+
+                  {unidad.salidas &&
+                    unidad.salidas.map((salida, salidaIndex) => (
+                      <div
+                        key={salidaIndex}
+                        className="salidas"
+                        style={{
+                          width: "15px",
+                          height: "15px",
+                          borderRadius: "50%",
+                          backgroundColor: salida.color,
+                          display: "inline-block", //inline-block
+                          margin: "1px",
+                          border: "1px solid black", // Agregar borde negro
+                          //padding: "1px",
+                          textAlign: "center", // Centrar el contenido dentro del círculo
+                          lineHeight: "15px", // Alinear verticalmente el contenido
+                          fontSize: "10px", // Tamaño de la fuente para que quepa dentro del círculo
+                        }}
+                      >
+                        {salidaIndex + 1}
+                      </div>
+                    ))}
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div><div>
-        <button className="button-capturar" onClick={capturarTabla}>Capturar tabla</button>
-      </div></div>
+      <div>
+        <div>
+          <button className="button-capturar" onClick={capturarTabla}>
+            Capturar tabla
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

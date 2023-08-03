@@ -219,7 +219,7 @@ function TablaReporte() {
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const link = document.createElement("a");
-      link.download = filename;
+      link.download = filename + ".png";
       link.href = imgData;
       link.click();
     });

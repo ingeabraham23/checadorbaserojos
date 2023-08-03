@@ -15,7 +15,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Unidades() {
-
   const [showForm, setShowForm] = useState(false);
   const [numeroUnidad, setNumeroUnidad] = useState("");
   const [selectedRutas, setSelectedRutas] = useState([]);
@@ -225,6 +224,17 @@ function Unidades() {
       .equals(numeroUnidad)
       .toArray();
 
+      let ultimaPrediccion = new Date();
+      const ultimaUnidad = await db.unidades
+        .toCollection()
+        .reverse()
+        .first(); // Obtener el último registro de la colección unidades en orden descendente
+    
+      if (ultimaUnidad && ultimaUnidad.prediccion) {
+        ultimaPrediccion = new Date(ultimaUnidad.prediccion);
+        ultimaPrediccion.setMinutes(ultimaPrediccion.getMinutes() + 2);
+      }
+
     const newUnidad = {
       numeroUnidad,
       horaRegistro: horaActual, // Usar la hora actual como el valor de horaRegistro
@@ -232,6 +242,7 @@ function Unidades() {
       color: rutaSeleccionada ? rutaSeleccionada.color : "", // Verificar si rutaSeleccionada está definida
       mensaje: rutaSeleccionada ? rutaSeleccionada.mensaje : "", // Verificar si rutaSeleccionada está definida
       salidas: coincidencias,
+      prediccion: ultimaPrediccion,
     };
 
     await db.unidades.add(newUnidad);
@@ -261,6 +272,7 @@ function Unidades() {
           unidadesActualizadas[i + 1].numeroUnidad;
         unidadesActualizadas[i].horaRegistro =
           unidadesActualizadas[i + 1].horaRegistro;
+        unidadesActualizadas[i].salidas = unidadesActualizadas[i + 1].salidas;
       }
 
       unidadesActualizadas.pop(); // Eliminar la última unidad del array
@@ -634,7 +646,6 @@ function Unidades() {
           onMoveUnidadToEnd={handleMoveUnidadToEnd}
         ></ListaUnidades>
       </div>
-      
     </div>
   );
 }

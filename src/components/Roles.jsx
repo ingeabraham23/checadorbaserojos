@@ -48,11 +48,11 @@ function Roles() {
   useEffect(() => {
     db.roles.toArray().then((roles) => {
       setRoles(roles);
-      if (roles.length === 0) {
+      /* if (roles.length === 0) {
         toast.info("No hay roles disponibles. Agrega uno nuevo.");
-      }
+      } */
     });
-  }, []);
+  }, [roles]);
 
   const agregarRutaSeleccionada = (ruta) => {
     const rutaSeleccionada = rutas.find((r) => r.ruta === ruta);
@@ -70,7 +70,7 @@ function Roles() {
 
     // Guardar el rol y las rutas seleccionadas en la base de datos
     await db.roles.add({ nombre: nombreRol, rutas: rutasSeleccionadas });
-
+    toast.success(`¡Exito! Rol guardado: "${nombreRol}"`);
     // Limpiar el formulario
     setNombreRol("");
     setRutasSeleccionadas([]);
@@ -80,16 +80,14 @@ function Roles() {
     <div>
       <form onSubmit={handleSubmit} className="formulario">
         <label>
-          Nombre de nuevo rol:
           <input
             type="text"
+            placeholder="Nombre de nuevo ROL"
             value={nombreRol}
             onChange={(event) => setNombreRol(event.target.value)}
           />
         </label>
-        <br />
         <label>
-          Seleccione las rutas para el nuevo rol:
           <select
             id="selectRutas"
             name="selectRutas"
@@ -103,9 +101,7 @@ function Roles() {
             ))}
           </select>
         </label>
-        <br />
       </form>
-      <br />
       <div className="table-container">
         <table>
           <thead>
@@ -128,9 +124,11 @@ function Roles() {
             Guardar
           </button>
         </div>
-        <h2>Roles existentes</h2>
         <table>
           <thead>
+            <tr>
+              <th colSpan={3}>Roles existentes</th>
+            </tr>
             <tr>
               <th>ID</th>
               <th>Nombre</th>
@@ -144,7 +142,7 @@ function Roles() {
                 <td>{rol.nombre}</td>
                 <td>
                   {rol.rutas.map((ruta, index) => (
-                    <div key={index} style={{ backgroundColor: ruta.color }}>
+                    <div className="rutas-rol" key={index} style={{ backgroundColor: ruta.color}}>
                       {ruta.ruta}
                     </div>
                   ))}

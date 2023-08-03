@@ -1,0 +1,16 @@
+.button-timer {
+    background-color: #6bca12; /* Cambia el color de fondo */
+    color: white; /* Cambia el color del texto */
+    font-size: 24px;
+    padding: 3px; /* Aumenta el espacio alrededor del texto */
+    border: 1px solid #000; /* Elimina el borde */
+    border-radius: 5px; /* Agrega bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    transition: background-color 0.3s ease; /* Agrega una transición */
+  }
+
+  .small-text {
+    font-size: 8px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }

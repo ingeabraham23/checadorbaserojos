@@ -124,6 +124,7 @@
 }
 
 table {
+  margin-top: 3px;
   width: 100%;
   border-collapse: collapse;
   padding: 1px;
@@ -167,4 +168,19 @@ tbody td {
   border-radius: 5px; /* Agrega bordes redondeados */
   cursor: pointer; /* Cambia el cursor al pasar por encima */
   transition: background-color 0.3s ease; /* Agrega una transición */
+}
+
+.timer-container{
+  margin: auto;
+  text-align: center;
+  margin-top: 3px;
+}
+
+.sound-container{
+  margin: auto;
+  text-align: center;
+}
+
+.prediccion{
+  font-size: 10px;
 }
