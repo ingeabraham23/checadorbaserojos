@@ -19,5 +19,14 @@
         });
       }
     </script>
+    <script>
+      // Escucha el evento antes de la instalación y muestra el banner
+      window.addEventListener('beforeinstallprompt', (event) => {
+        // Previene que se muestre el banner por defecto
+        event.preventDefault();
+        // Muestra el banner de instalación automáticamente
+        event.prompt();
+      });
+    </script>
   </body>
 </html>
