@@ -5,7 +5,6 @@ self.addEventListener('install', event => {
       .then(cache => cache.addAll([
         './',
         './index.html',
-        './public/manifest.json',
         // Agrega aquí los recursos que deseas cachear
       ]))
       .catch(error => console.error('Error al agregar recursos a la caché:', error))
