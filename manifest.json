@@ -20,6 +20,6 @@
   "prefer_related_application":false,
   "scope":"/",
   "short_name": "PWA Rojos",
-  "start_url": "/",
+  "start_url": "/checadorbaserojos/",
   "theme_color":"orange"
 }
