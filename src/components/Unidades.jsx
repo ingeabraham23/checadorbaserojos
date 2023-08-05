@@ -436,6 +436,7 @@ function Unidades() {
         // Guardar la ruta y el color actual de la unidad seleccionada
         let rutaActual = unidadSeleccionada.ruta;
         let colorActual = unidadSeleccionada.color;
+        let mensajeActual = unidadSeleccionada.mensaje;
         // Asignar "Tacopan" y su color a la unidad seleccionada
         unidadSeleccionada.ruta = "Tacopan";
         unidadSeleccionada.color = "#FEF304";
@@ -445,10 +446,13 @@ function Unidades() {
         for (let i = indexUnidadSeleccionada + 1; i < unidades.length; i++) {
           const rutaAnterior = unidades[i].ruta;
           const colorAnterior = unidades[i].color;
+          const mensajeAnterior = unidades[i].mensaje;
           unidades[i].ruta = rutaActual;
           unidades[i].color = colorActual;
+          unidades[i].mensaje = mensajeActual;
           rutaActual = rutaAnterior;
           colorActual = colorAnterior;
+          mensajeActual = mensajeAnterior;
         }
         setUnidades([...unidades]);
         // Guardar las unidades actualizadas en la base de datos
