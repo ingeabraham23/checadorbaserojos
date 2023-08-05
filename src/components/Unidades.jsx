@@ -31,17 +31,17 @@ function Unidades() {
 
   const [isReadyForInstall, setIsReadyForInstall] = React.useState(false);
 
-useEffect(() => {
-  window.addEventListener("beforeinstallprompt", (event) => {
-    // Prevent the mini-infobar from appearing on mobile.
-    event.preventDefault();
-    console.log("👍", "beforeinstallprompt", event);
-    // Stash the event so it can be triggered later.
-    window.deferredPrompt = event;
-    // Remove the 'hidden' class from the install button container.
-    setIsReadyForInstall(true);
-  });
-}, []);
+  useEffect(() => {
+    window.addEventListener("beforeinstallprompt", (event) => {
+      // Prevent the mini-infobar from appearing on mobile.
+      event.preventDefault();
+      console.log("👍", "beforeinstallprompt", event);
+      // Stash the event so it can be triggered later.
+      window.deferredPrompt = event;
+      // Remove the 'hidden' class from the install button container.
+      setIsReadyForInstall(true);
+    });
+  }, []);
 
   useEffect(() => {
     const checkAlarmTepepan = () => {
@@ -238,16 +238,13 @@ useEffect(() => {
       .equals(numeroUnidad)
       .toArray();
 
-      let ultimaPrediccion = new Date();
-      const ultimaUnidad = await db.unidades
-        .toCollection()
-        .reverse()
-        .first(); // Obtener el último registro de la colección unidades en orden descendente
-    
-      if (ultimaUnidad && ultimaUnidad.prediccion) {
-        ultimaPrediccion = new Date(ultimaUnidad.prediccion);
-        ultimaPrediccion.setMinutes(ultimaPrediccion.getMinutes() + 2);
-      }
+    let ultimaPrediccion = new Date();
+    const ultimaUnidad = await db.unidades.toCollection().reverse().first(); // Obtener el último registro de la colección unidades en orden descendente
+
+    if (ultimaUnidad && ultimaUnidad.prediccion) {
+      ultimaPrediccion = new Date(ultimaUnidad.prediccion);
+      ultimaPrediccion.setMinutes(ultimaPrediccion.getMinutes() + 2);
+    }
 
     const newUnidad = {
       numeroUnidad,
@@ -309,18 +306,23 @@ useEffect(() => {
       const unidadesActualizadas = [...unidades];
       const numeroUnidadEliminada = unidadEliminada.numeroUnidad;
       const horaRegistroUnidadEliminada = unidadEliminada.horaRegistro;
+      const salidasUnidadEliminada = unidadEliminada.salidas;
       // Recorrer las unidades a partir del índice de la unidad eliminada
       for (let i = indexEliminada; i < unidadesActualizadas.length - 1; i++) {
         unidadesActualizadas[i].numeroUnidad =
           unidadesActualizadas[i + 1].numeroUnidad;
         unidadesActualizadas[i].horaRegistro =
           unidadesActualizadas[i + 1].horaRegistro;
+          unidadesActualizadas[i].salidas =
+          unidadesActualizadas[i + 1].salidas;
       }
 
       unidadesActualizadas[unidadesActualizadas.length - 1].numeroUnidad =
         numeroUnidadEliminada;
       unidadesActualizadas[unidadesActualizadas.length - 1].horaRegistro =
         horaRegistroUnidadEliminada;
+        unidadesActualizadas[unidadesActualizadas.length - 1].salidas =
+        salidasUnidadEliminada;
       setUnidades(unidadesActualizadas);
 
       // Guardar las unidades actualizadas en la base de datos
@@ -341,21 +343,29 @@ useEffect(() => {
         unidadesActualizadas[indexUnidadSeleccionada].numeroUnidad;
       const horaRegistroUnidadActual =
         unidadesActualizadas[indexUnidadSeleccionada].horaRegistro;
+        const salidasUnidadActual =
+        unidadesActualizadas[indexUnidadSeleccionada].salidas;
 
       const numeroUnidadAnterior =
         unidadesActualizadas[indexUnidadSeleccionada - 1].numeroUnidad;
       const horaRegistroUnidadAnterior =
         unidadesActualizadas[indexUnidadSeleccionada - 1].horaRegistro;
+        const salidasUnidadAnterior =
+        unidadesActualizadas[indexUnidadSeleccionada - 1].salidas;
 
       unidadesActualizadas[indexUnidadSeleccionada].numeroUnidad =
         numeroUnidadAnterior;
       unidadesActualizadas[indexUnidadSeleccionada].horaRegistro =
         horaRegistroUnidadAnterior;
+        unidadesActualizadas[indexUnidadSeleccionada].salidas =
+        salidasUnidadAnterior;
 
       unidadesActualizadas[indexUnidadSeleccionada - 1].numeroUnidad =
         numeroUnidadActual;
       unidadesActualizadas[indexUnidadSeleccionada - 1].horaRegistro =
         horaRegistroUnidadActual;
+        unidadesActualizadas[indexUnidadSeleccionada - 1].salidas =
+        salidasUnidadActual;
 
       setUnidades(unidadesActualizadas);
 
@@ -379,26 +389,26 @@ useEffect(() => {
         unidadesActualizadas[indexUnidadSeleccionada].ruta;
       const colorUnidadActual =
         unidadesActualizadas[indexUnidadSeleccionada].color;
-      const horaRegistroUnidadActual =
-        unidadesActualizadas[indexUnidadSeleccionada].horaRegistro;
+      const mensajeUnidadActual =
+        unidadesActualizadas[indexUnidadSeleccionada].mensaje;
 
       const rutaUnidadAnterior =
         unidadesActualizadas[indexUnidadSeleccionada - 1].ruta;
       const colorUnidadAnterior =
         unidadesActualizadas[indexUnidadSeleccionada - 1].color;
-      const horaRegistroUnidadAnterior =
-        unidadesActualizadas[indexUnidadSeleccionada - 1].horaRegistro;
+      const mensajeUnidadAnterior =
+        unidadesActualizadas[indexUnidadSeleccionada - 1].mensaje;
 
       unidadesActualizadas[indexUnidadSeleccionada].ruta = rutaUnidadAnterior;
       unidadesActualizadas[indexUnidadSeleccionada].color = colorUnidadAnterior;
-      unidadesActualizadas[indexUnidadSeleccionada].horaRegistro =
-        horaRegistroUnidadAnterior;
+      unidadesActualizadas[indexUnidadSeleccionada].mensaje =
+        mensajeUnidadAnterior;
 
       unidadesActualizadas[indexUnidadSeleccionada - 1].ruta = rutaUnidadActual;
       unidadesActualizadas[indexUnidadSeleccionada - 1].color =
         colorUnidadActual;
-      unidadesActualizadas[indexUnidadSeleccionada - 1].horaRegistro =
-        horaRegistroUnidadActual;
+      unidadesActualizadas[indexUnidadSeleccionada - 1].mensaje =
+        mensajeUnidadActual;
 
       setUnidades(unidadesActualizadas);
 
@@ -473,6 +483,9 @@ useEffect(() => {
         return;
       }
 
+      let prediccionTepepan = new Date();
+      prediccionTepepan.setMinutes(prediccionTepepan.getMinutes() + 2);
+
       if (unidades.length === 1) {
         // Si hay una sola unidad, agregamos la nueva unidad en index[1]
         const fechaHoraActual = new Date();
@@ -490,6 +503,7 @@ useEffect(() => {
           mensaje:
             "Pasajeros con destino a Tequimila, yopi y tepepan favor de abordar la Unidad {numeroUnidad}. Tequimila, yopi y tepepan, Unidad {numeroUnidad}. Pasa por. INE. Chedraui, Minera, Puente peatonal del Fresnillo, Clínica mi rrufi, El Capulín, Monumento a la madre. Tequimila, yopi y tepepan, Unidad {numeroUnidad}. Tequimila, yopi y tepepan, Unidad {numeroUnidad}.",
           salidas: coincidencias,
+          prediccion: prediccionTepepan,
         };
 
         const unidadesActualizadas = [...unidades, nuevaUnidad];
@@ -522,6 +536,7 @@ useEffect(() => {
           mensaje:
             "Pasajeros con destino a Tequimila, yopi y tepepan favor de abordar la Unidad {numeroUnidad}. Tequimila, yopi y tepepan, Unidad {numeroUnidad}. Pasa por. INE. Chedraui, Minera, Puente peatonal del Fresnillo, Clínica mi rrufi, El Capulín, Monumento a la madre. Tequimila, yopi y tepepan, Unidad {numeroUnidad}. Tequimila, yopi y tepepan, Unidad {numeroUnidad}.",
           salidas: coincidencias,
+          prediccion: prediccionTepepan,
         };
 
         const unidadesActualizadas = [
@@ -578,8 +593,9 @@ useEffect(() => {
 
   return (
     <div className="unidades-container">
-      {isReadyForInstall && <button onClick={downloadApp}>
-        Descarga la App</button>}
+      {isReadyForInstall && (
+        <button onClick={downloadApp}>Descarga la App</button>
+      )}
       {!showForm && (
         <div className="add-button-container">
           <button className="add-button" onClick={handleAddUnidad}>
