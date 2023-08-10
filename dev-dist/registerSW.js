@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/checadorbaserojos/dev-sw.js?dev-sw', { scope: '/checadorbaserojos/', type: 'classic' })

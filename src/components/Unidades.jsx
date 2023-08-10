@@ -6,6 +6,7 @@ import "./Unidades.css";
 
 import {
   faCross,
+  faFileDownload,
   faMountainSun,
   faTree,
 } from "@fortawesome/free-solid-svg-icons";
@@ -598,7 +599,7 @@ function Unidades() {
   return (
     <div className="unidades-container">
       {isReadyForInstall && (
-        <button onClick={downloadApp}>Descarga la App</button>
+        <button className="button-app" onClick={downloadApp}>Instalar <FontAwesomeIcon icon={faFileDownload} /> </button>
       )}
       {!showForm && (
         <div className="add-button-container">

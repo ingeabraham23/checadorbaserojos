@@ -4,7 +4,7 @@ import App from "./App.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration.js"
+// import * as serviceWorkerRegistration from "./serviceWorkerRegistration.js"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   </React.StrictMode>
 );
 
-serviceWorkerRegistration.register({
+/* serviceWorkerRegistration.register({
   onUpdate: async (registration) => {
     // Corremos este código si hay una nueva versión de nuestra app
     // Detalles en: https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle
@@ -24,4 +24,4 @@ serviceWorkerRegistration.register({
       window.location.reload();
     }
   },
-});
+}); */
