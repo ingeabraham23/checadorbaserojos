@@ -12,9 +12,11 @@ import {
   faArrowsTurnToDots,
   faArrowDownShortWide,
   faVolumeXmark,
-  faRoad,
+  faVanShuttle,
   faTruckMedical,
   faTree,
+  faArrowRightToBracket,
+  faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import html2canvas from "html2canvas";
@@ -38,6 +40,7 @@ function ListaUnidades({
   const [timerColor, setTimerColor] = useState("#0FB5EF");
   const [elapsedTime, setElapsedTime] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   // eslint-disable-next-line no-unused-vars
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -159,6 +162,19 @@ function ListaUnidades({
     }
   };
 
+  const handleSpeechInfo = () => {
+    if (unidades.length > 0) {
+      const message =
+      "Estimado pasajero. Si tiene alguna duda, desea ir al hospital o quiere consultar algún horario de nuestras rutas. acérquese a esta cabina y con gusto lo atendemos";
+      console.log(message);
+      setIsSpeaking(true);
+      const utterance = new SpeechSynthesisUtterance(message);
+      utterance.onend = () => setIsSpeaking(false);
+      synthesis.speak(utterance);
+      utteranceRef.current = utterance; // Guardar la referencia al objeto utterance
+    }
+  };
+
   const handleCancelSpeech = () => {
     if (utteranceRef.current) {
       synthesis.cancel();
@@ -234,7 +250,7 @@ function ListaUnidades({
 
       // Agregar 2 minutos a la hora de inicio actual para la primera predicción
       const prediccionInicio = new Date(horaInicio);
-      prediccionInicio.setMinutes(horaInicio.getMinutes() + 2);
+      //prediccionInicio.setMinutes(horaInicio.getMinutes() + 2);
       // Actualizar la hora de inicio en la primera unidad de la lista
       await db.unidades.update(unidades[0].id, {
         horainicio: horaInicio,
@@ -257,6 +273,7 @@ function ListaUnidades({
         }, 2000);
         setIntervalId(newIntervalId);
       }
+      setIsButtonDisabled(false);
     }
   };
 
@@ -271,6 +288,7 @@ function ListaUnidades({
   //------------------timer timer timer timer timer timer timer timer timer timer timer timer timer timer timer
 
   const handleExit = async () => {
+    setIsButtonDisabled(true);
     const fechaHoraActual = new Date(); // Obtener la fecha y hora actual
     const horaActual = fechaHoraActual.toLocaleTimeString(); // Convertir la hora actual a formato de cadena
 
@@ -281,7 +299,8 @@ function ListaUnidades({
           const horaInicio = new Date();
           // Agregar 2 minutos a la hora de inicio actual para la primera predicción
           const prediccionInicio = new Date(horaInicio);
-          prediccionInicio.setMinutes(horaInicio.getMinutes() + 2);
+          //prediccionInicio.setMinutes(horaInicio.getMinutes() + 2);
+          prediccionInicio.setMinutes(horaInicio.getMinutes());
           // Actualizar la hora de inicio en la primera unidad de la lista
           await db.unidades.update(unidades[1].id, {
             horainicio: horaInicio,
@@ -312,6 +331,10 @@ function ListaUnidades({
       toast.error("Error al dar salida");
       console.log(error);
     }
+    // Reactivar el botón después de 10 segundos
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, 10000); // 10000 milisegundos = 10 segundos
   };
 
   return (
@@ -359,6 +382,15 @@ function ListaUnidades({
         )}
         {unidades.length > 0 && (
           <button
+            className="button-info"
+            onClick={handleSpeechInfo}
+            disabled={isSpeaking}
+          >
+            <FontAwesomeIcon icon={faInfoCircle} />
+            <p className="small-text">Info</p>
+          </button>)}
+        {unidades.length > 0 && (
+          <button
             className="button-silencio"
             onClick={handleCancelSpeech}
             disabled={!isSpeaking}
@@ -380,8 +412,9 @@ function ListaUnidades({
           </button>
         )}{" "}
         {unidades.length > 0 && (
-          <button className="button-exit" onClick={handleExit}>
-            <FontAwesomeIcon icon={faRoad} />
+          <button className="button-exit" onClick={handleExit} disabled={isButtonDisabled}>
+            <FontAwesomeIcon icon={faVanShuttle} style={{color: "#ff0000",}} />
+            <FontAwesomeIcon icon={faArrowRightToBracket} />
             <p className="small-text">Dar salida</p>
           </button>
         )}

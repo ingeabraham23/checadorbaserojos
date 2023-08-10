@@ -37,6 +37,7 @@
   border-radius: 5px; /* Agrega bordes redondeados */
   cursor: pointer; /* Cambia el cursor al pasar por encima */
   transition: background-color 0.3s ease; /* Agrega una transición */
+  margin-right: 10px;
 }
 
 .button-exit {
@@ -48,11 +49,31 @@
   border-radius: 5px; /* Agrega bordes redondeados */
   cursor: pointer; /* Cambia el cursor al pasar por encima */
   transition: background-color 0.3s ease; /* Agrega una transición */
-  margin-right: 8px;
+  margin-right: 10px;
 }
+.button-exit:disabled {
+  /* Estilos cuando el botón está deshabilitado */
+  background-color: #ccc; /* Cambia el color de fondo */
+  color: #888; /* Cambia el color del texto */
+  cursor: not-allowed; /* Cambia el cursor a "no permitido" */
+  border: 1px solid #999; /* Cambia el borde */
+}
+
 .button-anunciar {
   background-color: #4ae7da; /* Cambia el color de fondo */
   color: rgb(0, 0, 0); /* Cambia el color del texto */
+  font-size: 24px;
+  padding: 3px; /* Aumenta el espacio alrededor del texto */
+  border: 1px solid #000; /* Elimina el borde */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Agrega una transición */
+  margin-right: 2px;
+}
+
+.button-info {
+  background-color: #67c7ff; /* Cambia el color de fondo */
+  color: rgb(255, 255, 255); /* Cambia el color del texto */
   font-size: 24px;
   padding: 3px; /* Aumenta el espacio alrededor del texto */
   border: 1px solid #000; /* Elimina el borde */
