@@ -40,7 +40,7 @@ function ListaUnidades({
   const [timerColor, setTimerColor] = useState("#0FB5EF");
   const [elapsedTime, setElapsedTime] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   // eslint-disable-next-line no-unused-vars
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -273,7 +273,6 @@ function ListaUnidades({
         }, 2000);
         setIntervalId(newIntervalId);
       }
-      setIsButtonDisabled(false);
     }
   };
 
