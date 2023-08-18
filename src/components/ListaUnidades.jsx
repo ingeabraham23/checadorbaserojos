@@ -112,12 +112,37 @@ function ListaUnidades({
     }
   };
 
-  const handleSpeechProximaSalida = () => {
+  const handleSpeechProximaSalidaDosMinutos = () => {
     if (unidades.length > 0) {
       const numeroUnidad = unidades[1].numeroUnidad;
       const rutaUnidad = unidades[1].ruta;
       const message =
-        "Urbanos rojos anuncia su próxima salida: {rutaUnidad}, Unidad {numeroUnidad}. En un momento se formará.";
+        "Urbanos rojos anuncia su próxima salida: {rutaUnidad}, Unidad {numeroUnidad}. En 2 minutos se formará.";
+      const messageWithVariable = replacePlaceholder(
+        message,
+        "numeroUnidad",
+        numeroUnidad,
+        "rutaUnidad",
+        rutaUnidad
+      );
+
+      console.log(messageWithVariable);
+      setIsSpeaking(true);
+
+      const utterance = new SpeechSynthesisUtterance(messageWithVariable);
+      utterance.onend = () => setIsSpeaking(false);
+
+      synthesis.speak(utterance);
+      utteranceRef.current = utterance; // Guardar la referencia al objeto utterance
+    }
+  };
+
+  const handleSpeechProximaSalidaUnMinuto = () => {
+    if (unidades.length > 0) {
+      const numeroUnidad = unidades[1].numeroUnidad;
+      const rutaUnidad = unidades[1].ruta;
+      const message =
+        "Urbanos rojos anuncia su próxima salida: {rutaUnidad}, Unidad {numeroUnidad}. En 1 minuto se formará.";
       const messageWithVariable = replacePlaceholder(
         message,
         "numeroUnidad",
@@ -352,10 +377,19 @@ function ListaUnidades({
         {unidades.length > 1 && (
           <button
             className="button-proxima"
-            onClick={handleSpeechProximaSalida}
+            onClick={handleSpeechProximaSalidaDosMinutos}
             disabled={isSpeaking}
           >
             <FontAwesomeIcon icon={faArrowsTurnToDots} />
+            <p className="small-text">Proxima</p>
+          </button>
+        )}
+        {unidades.length > 1 && (
+          <button
+            className="button-proxima"
+            onClick={handleSpeechProximaSalidaUnMinuto}
+            disabled={isSpeaking}
+          >1m
             <p className="small-text">Proxima</p>
           </button>
         )}
@@ -376,7 +410,7 @@ function ListaUnidades({
             disabled={isSpeaking}
           >
             <FontAwesomeIcon icon={faTree} />
-            <p className="small-text">Huapaltepec</p>
+            <p className="small-text">Huapal</p>
           </button>
         )}
         {unidades.length > 0 && (

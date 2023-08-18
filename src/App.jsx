@@ -7,6 +7,7 @@ import Unidades from "./components/Unidades";
 import SeleccionarRol from "./components/SeleccionarRol";
 import Reporte from "./components/Reporte";
 import Datos from "./components/Datos"
+import Sonido from "./components/Sonido";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/seleccionarrol" element={<SeleccionarRol />} />
             <Route path="/reporte" element={<Reporte />} />
             <Route path="/datos" element={<Datos />} />
+            <Route path="/sonido" element={<Sonido />} />
           </Routes>
         </div>
     </HashRouter>

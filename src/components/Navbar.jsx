@@ -7,6 +7,7 @@ import {
   faClipboardList,
   faBus,
   faDatabase,
+  faVolumeHigh,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -16,6 +17,7 @@ const navigationItems = [
   { path: '/seleccionarrol', icon: faCircleCheck, label: 'Rol' },
   { path: '/reporte', icon: faClipboardList, label: 'Reporte' },
   { path: '/datos', icon: faDatabase, label: 'Datos' },
+  { path: '/sonido', icon: faVolumeHigh, label: 'Sonido' },
 ];
 
 function Navbar() {

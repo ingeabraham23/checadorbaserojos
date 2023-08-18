@@ -104,7 +104,7 @@
   border-radius: 5px; /* Agrega bordes redondeados */
   cursor: pointer; /* Cambia el cursor al pasar por encima */
   transition: background-color 0.3s ease; /* Agrega una transición */
-  margin-right: 5px;
+  margin-right: 2px;
 }
 
 .button-hospital {
@@ -128,7 +128,7 @@
   border-radius: 5px; /* Agrega bordes redondeados */
   cursor: pointer; /* Cambia el cursor al pasar por encima */
   transition: background-color 0.3s ease; /* Agrega una transición */
-  margin-right: 8px;
+  margin-right: 2px;
 }
 
 .button-capturar {
