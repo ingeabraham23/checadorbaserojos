@@ -465,6 +465,38 @@ function Unidades() {
       }
     }
   };
+/* 
+  "Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Pasa por. INE. Chedraui, Minera, Puente peatonal del Fresnillo, Clínica mi rrufi, El Capulín, Boima, Los arcos, Pollos el Indio, Linda Tarde, Caseta de Coahuixco. Chignautla, Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}." */
+
+  const handleAssignCoatzala = async (numeroUnidad) => {
+    try {
+      // Busca la unidad con el número especificado
+      const unidadSeleccionada = await db.unidades.get({ numeroUnidad });
+  
+      if (unidadSeleccionada && unidadSeleccionada.ruta === "Coahuixco") {
+        // Realiza las actualizaciones en la unidad seleccionada
+        unidadSeleccionada.ruta = "Coatzala";
+        unidadSeleccionada.color = "#0E7900";
+        unidadSeleccionada.mensaje = "Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Pasa por. INE. Chedraui, Minera, Puente peatonal del Fresnillo, Clínica mi rrufi, El Capulín, Boima, Los arcos, Pollos el Indio, Linda Tarde, Caseta de Coahuixco. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}.";
+  
+        // Actualiza el registro en la base de datos usando el método put
+        await db.unidades.put(unidadSeleccionada);
+  
+        // Actualiza la unidad en el arreglo de unidades (si es necesario)
+        // Esto depende de cómo gestionas tus datos en React
+        setUnidades([...unidades]);
+  
+        toast.success(`La ruta Coatzala se asignó correctamente.`);
+      } else {
+        toast.warn(`Para asignar Coatzala, la ruta tiene que ser "Coahuixco" y la unidad con número ${numeroUnidad} debe tener esta ruta.`);
+      }
+    } catch (error) {
+      console.error("Error al actualizar la unidad:", error);
+      toast.error("Hubo un error al actualizar la unidad.");
+    }
+  };
+  
+  
 
   const handleAddTepepan = async () => {
     const numeroUnidadIngresado = prompt(
@@ -701,6 +733,7 @@ function Unidades() {
           onMoveUpRuta={handleMoveUpRuta}
           onAssignTacopan={handleAssignTacopan}
           onMoveUnidadToEnd={handleMoveUnidadToEnd}
+          onAssignCoatzala={handleAssignCoatzala}
         ></ListaUnidades>
       </div>
     </div>

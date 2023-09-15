@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState, useRef } from "react";
-import ClockButton from './Reloj';
+import ClockButton from "./Reloj";
 //import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faTrash,
@@ -17,6 +17,7 @@ import {
   faTree,
   faArrowRightToBracket,
   faInfoCircle,
+  faChurch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import html2canvas from "html2canvas";
@@ -34,6 +35,7 @@ function ListaUnidades({
   onMoveUp,
   onMoveUpRuta,
   onAssignTacopan,
+  onAssignCoatzala,
   onMoveUnidadToEnd,
 }) {
   // eslint-disable-next-line no-unused-vars
@@ -112,31 +114,6 @@ function ListaUnidades({
     }
   };
 
-  const handleSpeechProximaSalidaDosMinutos = () => {
-    if (unidades.length > 0) {
-      const numeroUnidad = unidades[1].numeroUnidad;
-      const rutaUnidad = unidades[1].ruta;
-      const message =
-        "Urbanos rojos anuncia su próxima salida: {rutaUnidad}, Unidad {numeroUnidad}. En 2 minutos se formará.";
-      const messageWithVariable = replacePlaceholder(
-        message,
-        "numeroUnidad",
-        numeroUnidad,
-        "rutaUnidad",
-        rutaUnidad
-      );
-
-      console.log(messageWithVariable);
-      setIsSpeaking(true);
-
-      const utterance = new SpeechSynthesisUtterance(messageWithVariable);
-      utterance.onend = () => setIsSpeaking(false);
-
-      synthesis.speak(utterance);
-      utteranceRef.current = utterance; // Guardar la referencia al objeto utterance
-    }
-  };
-
   const handleSpeechProximaSalidaUnMinuto = () => {
     if (unidades.length > 0) {
       const numeroUnidad = unidades[1].numeroUnidad;
@@ -190,7 +167,7 @@ function ListaUnidades({
   const handleSpeechInfo = () => {
     if (unidades.length > 0) {
       const message =
-      "Estimado pasajero. Si tiene alguna duda, desea ir al hospital o quiere consultar algún horario de nuestras rutas. acérquese a esta cabina y con gusto lo atendemos";
+        "Estimado pasajero. Si tiene alguna duda, desea ir al hospital o quiere consultar algún horario de nuestras rutas. acérquese a esta cabina y con gusto lo atendemos";
       console.log(message);
       setIsSpeaking(true);
       const utterance = new SpeechSynthesisUtterance(message);
@@ -333,14 +310,14 @@ function ListaUnidades({
 
           for (let i = 2; i < unidades.length; i++) {
             const nuevaPrediccion = new Date(prediccionInicio);
-            nuevaPrediccion.setMinutes(prediccionInicio.getMinutes() + (i - 1) * 2);
+            nuevaPrediccion.setMinutes(
+              prediccionInicio.getMinutes() + (i - 1) * 2
+            );
             await db.unidades.update(unidades[i].id, {
               prediccion: nuevaPrediccion,
             });
           }
         }
-
-        
 
         const unidadToCopy = {
           ...unidadesCopy[0],
@@ -377,22 +354,14 @@ function ListaUnidades({
         {unidades.length > 1 && (
           <button
             className="button-proxima"
-            onClick={handleSpeechProximaSalidaDosMinutos}
+            onClick={handleSpeechProximaSalidaUnMinuto}
             disabled={isSpeaking}
           >
             <FontAwesomeIcon icon={faArrowsTurnToDots} />
             <p className="small-text">Proxima</p>
           </button>
         )}
-        {unidades.length > 1 && (
-          <button
-            className="button-proxima"
-            onClick={handleSpeechProximaSalidaUnMinuto}
-            disabled={isSpeaking}
-          >1m
-            <p className="small-text">Proxima</p>
-          </button>
-        )}
+
         {unidades.length > 0 && (
           <button
             className="button-hospital"
@@ -421,7 +390,8 @@ function ListaUnidades({
           >
             <FontAwesomeIcon icon={faInfoCircle} />
             <p className="small-text">Info</p>
-          </button>)}
+          </button>
+        )}
         {unidades.length > 0 && (
           <button
             className="button-silencio"
@@ -445,8 +415,12 @@ function ListaUnidades({
           </button>
         )}{" "}
         {unidades.length > 0 && (
-          <button className="button-exit" onClick={handleExit} disabled={isButtonDisabled}>
-            <FontAwesomeIcon icon={faVanShuttle} style={{color: "#ff0000",}} />
+          <button
+            className="button-exit"
+            onClick={handleExit}
+            disabled={isButtonDisabled}
+          >
+            <FontAwesomeIcon icon={faVanShuttle} style={{ color: "#ff0000" }} />
             <FontAwesomeIcon icon={faArrowRightToBracket} />
             <p className="small-text">Dar salida</p>
           </button>
@@ -486,6 +460,17 @@ function ListaUnidades({
                   onClick={() => handleMoveUpRuta(unidad.numeroUnidad)}
                 >
                   R <FontAwesomeIcon icon={faCircleUp} />
+                </button>
+                <button
+                  className="button-assign-coatzala"
+                  onClick={() => {
+                    const confirmed = window.confirm("¿Asignar Coatzala?");
+                    if (confirmed) {
+                      onAssignCoatzala(unidad.numeroUnidad);
+                    }
+                  }}
+                >
+                  <FontAwesomeIcon icon={faChurch} />
                 </button>
                 <button
                   className="button-assign-tacopan"
