@@ -5,11 +5,13 @@ import "./Reporte.css";
 
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { DownloadTableExcel } from "react-export-table-to-excel";
 import "jspdf-autotable";
 
 import {
   faCamera,
   faCircleArrowDown,
+  faFileExcel,
   faFilePdf,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -290,12 +292,22 @@ function TablaReporte() {
         </tbody>
       </table>
       <div className="botones-flotantes">
+        <DownloadTableExcel
+          filename="users table"
+          sheet="users"
+          currentTableRef={tableRef.current}
+        >
+          <button className="boton-excel">
+            <FontAwesomeIcon icon={faFileExcel} />
+          </button>
+        </DownloadTableExcel>
         <button className="boton-pdf" onClick={handleDownloadPDF}>
           <FontAwesomeIcon icon={faFilePdf} />
         </button>
         <button className="boton-imagen" onClick={handleDownloadImage}>
           <FontAwesomeIcon icon={faCamera} />
         </button>
+
         <button className="boton-ir-abajo" onClick={handleGoToBottom}>
           <FontAwesomeIcon icon={faCircleArrowDown} />
         </button>

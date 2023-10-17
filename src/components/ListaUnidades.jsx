@@ -18,6 +18,7 @@ import {
   faArrowRightToBracket,
   faInfoCircle,
   faChurch,
+  faMinimize,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import html2canvas from "html2canvas";
@@ -144,7 +145,32 @@ function ListaUnidades({
       const numeroUnidad = unidades[0].numeroUnidad;
       const rutaUnidad = unidades[0].ruta;
       const message =
-        "Chignautla y {rutaUnidad}, unidad {numeroUnidad}. Tambien pasa al Hospital General y al Centro de Servicios Integrales, CIS";
+        "Chignautla y {rutaUnidad}, unidad {numeroUnidad}. Tambien pasa al Hospital General y al Centro Integral de Servicios, CIS";
+      const messageWithVariable = replacePlaceholder(
+        message,
+        "numeroUnidad",
+        numeroUnidad,
+        "rutaUnidad",
+        rutaUnidad
+      );
+
+      console.log(messageWithVariable);
+      setIsSpeaking(true);
+
+      const utterance = new SpeechSynthesisUtterance(messageWithVariable);
+      utterance.onend = () => setIsSpeaking(false);
+
+      synthesis.speak(utterance);
+      utteranceRef.current = utterance; // Guardar la referencia al objeto utterance
+    }
+  };
+
+  const handleSpeechShort = () => {
+    if (unidades.length > 0) {
+      const numeroUnidad = unidades[0].numeroUnidad;
+      const rutaUnidad = unidades[0].ruta;
+      const message =
+        "Chignautla y {rutaUnidad}, unidad {numeroUnidad}. Chignautla y {rutaUnidad}, unidad {numeroUnidad}. Chignautla y {rutaUnidad}, unidad {numeroUnidad}.";
       const messageWithVariable = replacePlaceholder(
         message,
         "numeroUnidad",
@@ -348,6 +374,16 @@ function ListaUnidades({
             disabled={isSpeaking}
           >
             <FontAwesomeIcon icon={faBullhorn} />
+            <p className="small-text">Anunciar</p>
+          </button>
+        )}
+        {unidades.length > 0 && (
+          <button
+            className="button-anunciar"
+            onClick={handleSpeechShort}
+            disabled={isSpeaking}
+          >
+            <FontAwesomeIcon icon={faMinimize} />
             <p className="small-text">Anunciar</p>
           </button>
         )}

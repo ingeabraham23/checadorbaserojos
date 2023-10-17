@@ -82,23 +82,33 @@
 
 /* Estilos para el botón PDF */
 .boton-pdf {
-  background-color: #FF5733;
+  background-color: #ff3d12;
   color: #FFFFFF;
   font-size: 20px; /* Aumenta el tamaño de letra */
+  margin-left: 20px;
   /* Agrega otros estilos específicos para este botón */
 }
 
 /* Estilos para el botón de Imagen */
 .boton-imagen {
-  background-color: #00CC66;
+  background-color: #737500;
   color: #FFFFFF;
   font-size: 20px; /* Aumenta el tamaño de letra */
   /* Agrega otros estilos específicos para este botón */
 }
 
+.boton-excel {
+  background-color: #00a531;
+  color: #FFFFFF;
+  font-size: 20px; /* Aumenta el tamaño de letra */
+  margin-left: 20px;
+  padding: 10px;
+  /* Agrega otros estilos específicos para este botón */
+}
+
 /* Estilos para el botón de Ir al final */
 .boton-ir-abajo {
-  background-color: #FFC300;
+  background-color: #000000;
   color: #FFFFFF;
   font-size: 20px; /* Aumenta el tamaño de letra */
   /* Agrega otros estilos específicos para este botón */
