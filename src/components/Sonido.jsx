@@ -36,10 +36,14 @@ function Sonido() {
   };
 
   return (
-    <div>
-      <button onClick={() => playAudio("Cargas y té vas.")}>Cargas</button>
-      <button onClick={() => playAudio("Sale compañero, porfavor.")}>Sale</button>
-      <button onClick={() => playAudio("Pon tu letrero de hospital, porfavor")}>hospital</button>
+    <div className="container-audios">
+      <button onClick={() => playAudio("Cargas y té vas.")}>Cargas y té vas.</button>
+      <button onClick={() => playAudio("Sale compañero, porfavor.")}>Sale compañero, porfavor.</button>
+      <button onClick={() => playAudio("Pon tu letrero de hospital, porfavor.")}>Pon tu letrero de hospital, porfavor.</button>
+      <button onClick={() => playAudio("Cargas, y te largas. porfavor.")}>Cargas, y te largas. porfavor.</button>
+      <button onClick={() => playAudio("Hay cuando gustes.")}>Hay cuando gustes.</button>
+      <button onClick={() => playAudio("No entiendes.")}>No entiendes.</button>
+
       <button className="boton-cancel" onClick={cancelAudio}>Cancelar</button>
     </div>
   );

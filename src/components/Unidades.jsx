@@ -125,6 +125,7 @@ function Unidades() {
     setisAlarmTacopanActive(false);
   };
 
+  //Contar cuantas veces existe tacopan y tepepan y puerto para que se descarten del rol principal al agregar la siguiente ruta
   useEffect(() => {
     const fetchData = async () => {
       const roles = await db.rol.toArray();
@@ -140,7 +141,12 @@ function Unidades() {
         .equals("Tepepan")
         .count();
 
-      let countTacopanTepepan = countTacopan + countTepepan;
+      const countPuerto = await db.reporte
+        .where("ruta")
+        .equals("Puerto")
+        .count();
+
+      let countTacopanTepepan = countTacopan + countTepepan + countPuerto;
 
       //const rolUnico = roles.length > 0 ? roles[0] : null;
       let rolUnico = null;
@@ -165,6 +171,10 @@ function Unidades() {
       );
 
       if (existeTacopan) existeTacopanTepepan++;
+
+      const existePuerto = unidades.some((unidad) => unidad.ruta === "Puerto");
+
+      if (existePuerto) existeTacopanTepepan++;
 
       numeroUnidades =
         unidades.length +
@@ -314,15 +324,14 @@ function Unidades() {
           unidadesActualizadas[i + 1].numeroUnidad;
         unidadesActualizadas[i].horaRegistro =
           unidadesActualizadas[i + 1].horaRegistro;
-          unidadesActualizadas[i].salidas =
-          unidadesActualizadas[i + 1].salidas;
+        unidadesActualizadas[i].salidas = unidadesActualizadas[i + 1].salidas;
       }
 
       unidadesActualizadas[unidadesActualizadas.length - 1].numeroUnidad =
         numeroUnidadEliminada;
       unidadesActualizadas[unidadesActualizadas.length - 1].horaRegistro =
         horaRegistroUnidadEliminada;
-        unidadesActualizadas[unidadesActualizadas.length - 1].salidas =
+      unidadesActualizadas[unidadesActualizadas.length - 1].salidas =
         salidasUnidadEliminada;
       setUnidades(unidadesActualizadas);
 
@@ -344,28 +353,28 @@ function Unidades() {
         unidadesActualizadas[indexUnidadSeleccionada].numeroUnidad;
       const horaRegistroUnidadActual =
         unidadesActualizadas[indexUnidadSeleccionada].horaRegistro;
-        const salidasUnidadActual =
+      const salidasUnidadActual =
         unidadesActualizadas[indexUnidadSeleccionada].salidas;
 
       const numeroUnidadAnterior =
         unidadesActualizadas[indexUnidadSeleccionada - 1].numeroUnidad;
       const horaRegistroUnidadAnterior =
         unidadesActualizadas[indexUnidadSeleccionada - 1].horaRegistro;
-        const salidasUnidadAnterior =
+      const salidasUnidadAnterior =
         unidadesActualizadas[indexUnidadSeleccionada - 1].salidas;
 
       unidadesActualizadas[indexUnidadSeleccionada].numeroUnidad =
         numeroUnidadAnterior;
       unidadesActualizadas[indexUnidadSeleccionada].horaRegistro =
         horaRegistroUnidadAnterior;
-        unidadesActualizadas[indexUnidadSeleccionada].salidas =
+      unidadesActualizadas[indexUnidadSeleccionada].salidas =
         salidasUnidadAnterior;
 
       unidadesActualizadas[indexUnidadSeleccionada - 1].numeroUnidad =
         numeroUnidadActual;
       unidadesActualizadas[indexUnidadSeleccionada - 1].horaRegistro =
         horaRegistroUnidadActual;
-        unidadesActualizadas[indexUnidadSeleccionada - 1].salidas =
+      unidadesActualizadas[indexUnidadSeleccionada - 1].salidas =
         salidasUnidadActual;
 
       setUnidades(unidadesActualizadas);
@@ -465,38 +474,81 @@ function Unidades() {
       }
     }
   };
-/* 
-  "Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Pasa por. INE. Chedraui, Minera, Puente peatonal del Fresnillo, Clínica mi rrufi, El Capulín, Boima, Los arcos, Pollos el Indio, Linda Tarde, Caseta de Coahuixco. Chignautla, Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}." */
+
+  const handleAssignPuerto = async (numeroUnidad) => {
+    const unidadSeleccionada = unidades.find(
+      (unidad) => unidad.numeroUnidad === numeroUnidad
+    );
+
+    if (unidadSeleccionada) {
+      const rutaPuertoExistente = unidades.some(
+        (unidad) => unidad.ruta === "Puerto"
+      );
+
+      if (!rutaPuertoExistente) {
+        const indexUnidadSeleccionada = unidades.indexOf(unidadSeleccionada);
+        // Guardar la ruta y el color actual de la unidad seleccionada
+        let rutaActual = unidadSeleccionada.ruta;
+        let colorActual = unidadSeleccionada.color;
+        let mensajeActual = unidadSeleccionada.mensaje;
+        // Asignar "Tacopan" y su color a la unidad seleccionada
+        unidadSeleccionada.ruta = "Puerto";
+        unidadSeleccionada.color = "#FFF";
+        unidadSeleccionada.mensaje =
+          "Pasajeros con destino a: el puerto y cristo rey,  favor de abordar la unidad {numeroUnidad}. el puerto. cristo rey, unidad {numeroUnidad}. el puerto. cristo rey, unidad {numeroUnidad}. el puerto. cristo rey, unidad {numeroUnidad}.";
+        // Heredar las rutas y los colores anteriores a las unidades siguientes
+        for (let i = indexUnidadSeleccionada + 1; i < unidades.length; i++) {
+          const rutaAnterior = unidades[i].ruta;
+          const colorAnterior = unidades[i].color;
+          const mensajeAnterior = unidades[i].mensaje;
+          unidades[i].ruta = rutaActual;
+          unidades[i].color = colorActual;
+          unidades[i].mensaje = mensajeActual;
+          rutaActual = rutaAnterior;
+          colorActual = colorAnterior;
+          mensajeActual = mensajeAnterior;
+        }
+        setUnidades([...unidades]);
+        // Guardar las unidades actualizadas en la base de datos
+        await db.unidades.clear();
+        await db.unidades.bulkPut(unidades);
+        toast.success("La ruta Puerto se asigno correctamente.");
+      } else {
+        toast.warn("La ruta Puerto ya está asignada a otra unidad.");
+      }
+    }
+  };
 
   const handleAssignCoatzala = async (numeroUnidad) => {
     try {
       // Busca la unidad con el número especificado
       const unidadSeleccionada = await db.unidades.get({ numeroUnidad });
-  
+
       if (unidadSeleccionada && unidadSeleccionada.ruta === "Coahuixco") {
         // Realiza las actualizaciones en la unidad seleccionada
         unidadSeleccionada.ruta = "Coatzala";
         unidadSeleccionada.color = "#0E7900";
-        unidadSeleccionada.mensaje = "Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Pasa por. INE. Chedraui, Minera, Puente peatonal del Fresnillo, Clínica mi rrufi, El Capulín, Boima, Los arcos, Pollos el Indio, Linda Tarde, Caseta de Coahuixco. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}.";
-  
+        unidadSeleccionada.mensaje =
+          "Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Pasa por. INE. Chedraui, Minera, Puente peatonal del Fresnillo, Clínica mi rrufi, El Capulín, Boima, Los arcos, Pollos el Indio, Linda Tarde, Caseta de Coahuixco. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}. Chignautla, Coahuixco, Talzintan y {rutaUnidad}, Unidad {numeroUnidad}.";
+
         // Actualiza el registro en la base de datos usando el método put
         await db.unidades.put(unidadSeleccionada);
-  
+
         // Actualiza la unidad en el arreglo de unidades (si es necesario)
         // Esto depende de cómo gestionas tus datos en React
         setUnidades([...unidades]);
-  
+
         toast.success(`La ruta Coatzala se asignó correctamente.`);
       } else {
-        toast.warn(`Para asignar Coatzala, la ruta tiene que ser "Coahuixco" y la unidad con número ${numeroUnidad} debe tener esta ruta.`);
+        toast.warn(
+          `Para asignar Coatzala, la ruta tiene que ser "Coahuixco" y la unidad con número ${numeroUnidad} debe tener esta ruta.`
+        );
       }
     } catch (error) {
       console.error("Error al actualizar la unidad:", error);
       toast.error("Hubo un error al actualizar la unidad.");
     }
   };
-  
-  
 
   const handleAddTepepan = async () => {
     const numeroUnidadIngresado = prompt(
@@ -631,7 +683,9 @@ function Unidades() {
   return (
     <div className="unidades-container">
       {isReadyForInstall && (
-        <button className="button-app" onClick={downloadApp}>Instalar <FontAwesomeIcon icon={faFileDownload} /> </button>
+        <button className="button-app" onClick={downloadApp}>
+          Instalar <FontAwesomeIcon icon={faFileDownload} />{" "}
+        </button>
       )}
       {!showForm && (
         <div className="add-button-container">
@@ -732,6 +786,7 @@ function Unidades() {
           onMoveUp={handleMoveUp}
           onMoveUpRuta={handleMoveUpRuta}
           onAssignTacopan={handleAssignTacopan}
+          onAssignPuerto={handleAssignPuerto}
           onMoveUnidadToEnd={handleMoveUnidadToEnd}
           onAssignCoatzala={handleAssignCoatzala}
         ></ListaUnidades>

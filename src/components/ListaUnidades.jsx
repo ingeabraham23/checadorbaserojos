@@ -19,6 +19,7 @@ import {
   faInfoCircle,
   faChurch,
   faMinimize,
+  faCross,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import html2canvas from "html2canvas";
@@ -36,6 +37,7 @@ function ListaUnidades({
   onMoveUp,
   onMoveUpRuta,
   onAssignTacopan,
+  onAssignPuerto,
   onAssignCoatzala,
   onMoveUnidadToEnd,
 }) {
@@ -524,6 +526,17 @@ function ListaUnidades({
                   onClick={() => handleMoveUnidadToEnd(unidad.numeroUnidad)}
                 >
                   <FontAwesomeIcon icon={faArrowDownShortWide} />
+                </button>
+                <button
+                  className="button-puerto"
+                  onClick={() => {
+                    const confirmed = window.confirm("¿Asignar a Puerto?");
+                    if (confirmed) {
+                      onAssignPuerto(unidad.numeroUnidad);
+                    }
+                  }}
+                >
+                  <FontAwesomeIcon icon={faCross} />
                 </button>
                 <div className="prediccion">
                   {format(unidad.prediccion, "HH:mm:ss")}
