@@ -19,7 +19,8 @@ import {
   faInfoCircle,
   faChurch,
   faMinimize,
-  faCross,
+  //Habilitar solo cuando se vaya a trabajar con la ruta EL PUERTO
+  //faCross,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import html2canvas from "html2canvas";
@@ -37,7 +38,8 @@ function ListaUnidades({
   onMoveUp,
   onMoveUpRuta,
   onAssignTacopan,
-  onAssignPuerto,
+  //Habilitar solo cuando se vaya a trabajar con la ruta EL PUERTO
+  //onAssignPuerto,
   onAssignCoatzala,
   onMoveUnidadToEnd,
 }) {
@@ -527,7 +529,8 @@ function ListaUnidades({
                 >
                   <FontAwesomeIcon icon={faArrowDownShortWide} />
                 </button>
-                <button
+                {/*Habilitar solo cuando se vaya a trabajar con la ruta EL PUERTO*/}
+                {/*<button
                   className="button-puerto"
                   onClick={() => {
                     const confirmed = window.confirm("¿Asignar a Puerto?");
@@ -537,7 +540,7 @@ function ListaUnidades({
                   }}
                 >
                   <FontAwesomeIcon icon={faCross} />
-                </button>
+                </button>*/}
                 <div className="prediccion">
                   {format(unidad.prediccion, "HH:mm:ss")}
 

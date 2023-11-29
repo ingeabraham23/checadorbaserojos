@@ -141,12 +141,12 @@ function Unidades() {
         .equals("Tepepan")
         .count();
 
-      const countPuerto = await db.reporte
+      /* const countPuerto = await db.reporte
         .where("ruta")
         .equals("Puerto")
-        .count();
+        .count(); */
 
-      let countTacopanTepepan = countTacopan + countTepepan + countPuerto;
+      let countTacopanTepepan = countTacopan + countTepepan ; //+ countPuerto Agregar cuando se vaya atrabajar con la ruta EL PUERTO
 
       //const rolUnico = roles.length > 0 ? roles[0] : null;
       let rolUnico = null;
@@ -172,9 +172,10 @@ function Unidades() {
 
       if (existeTacopan) existeTacopanTepepan++;
 
-      const existePuerto = unidades.some((unidad) => unidad.ruta === "Puerto");
+      //HABILITAR SOLO CUANDO SE VAYA  ATRABAJAR CON LA RUTA EL PUERTO
+      /* const existePuerto = unidades.some((unidad) => unidad.ruta === "Puerto");
 
-      if (existePuerto) existeTacopanTepepan++;
+      if (existePuerto) existeTacopanTepepan++; */
 
       numeroUnidades =
         unidades.length +
@@ -475,7 +476,8 @@ function Unidades() {
     }
   };
 
-  const handleAssignPuerto = async (numeroUnidad) => {
+  //Habilitar solo cuando se vaya a trabajar con la ruta EL PUERTO
+  /*const handleAssignPuerto = async (numeroUnidad) => {
     const unidadSeleccionada = unidades.find(
       (unidad) => unidad.numeroUnidad === numeroUnidad
     );
@@ -517,7 +519,7 @@ function Unidades() {
         toast.warn("La ruta Puerto ya está asignada a otra unidad.");
       }
     }
-  };
+  };*/
 
   const handleAssignCoatzala = async (numeroUnidad) => {
     try {
@@ -786,7 +788,8 @@ function Unidades() {
           onMoveUp={handleMoveUp}
           onMoveUpRuta={handleMoveUpRuta}
           onAssignTacopan={handleAssignTacopan}
-          onAssignPuerto={handleAssignPuerto}
+          //Habilitar solo cuando se vaya a trabajar con la ruta EL PUERTO
+          // onAssignPuerto={handleAssignPuerto}
           onMoveUnidadToEnd={handleMoveUnidadToEnd}
           onAssignCoatzala={handleAssignCoatzala}
         ></ListaUnidades>
